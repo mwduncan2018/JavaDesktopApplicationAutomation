@@ -1,4 +1,5 @@
 # Installing OpenCV
+###### OpenCV must be downloaded and added to the Eclipse workspace.
 ## Windows Installation Instructions
 ###### https://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html#install-opencv-3-x-under-windows  
 
