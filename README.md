@@ -13,8 +13,10 @@
 # Installing Winium Driver
 ###### https://www.youtube.com/watch?v=juRKu9cBwQ0&t=937s 
 
-###### GitHub - Winium For Desktophttps://github.com/2gis/Winium.Desktop
-###### GitHub - Winium Driverhttps://github.com/2gis/Winium.Desktop/releases
+###### GitHub - Winium For Desktop
+###### https://github.com/2gis/Winium.Desktop
+###### GitHub - Winium Driver
+###### https://github.com/2gis/Winium.Desktop/releases
 
 # This demo project
 ###### "JavaDesktopApplicationAutomation" - Winium, OpenCV, Robot
