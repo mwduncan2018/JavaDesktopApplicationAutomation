@@ -1,0 +1,7 @@
+Implement scanning images in a folder
+
+ImageSolution should automatically
+	Take the screenshot
+	Find the image
+	Store the Points for the corners and center
+	
