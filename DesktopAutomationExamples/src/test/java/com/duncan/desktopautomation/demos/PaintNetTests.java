@@ -19,11 +19,13 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.duncan.paintnetautomationframework.pom.CanvasPage;
 import com.duncan.paintnetautomationframework.pom.Driver;
-import com.duncan.paintnetautomationframework.pom.ImageSolution;
 import com.duncan.paintnetautomationframework.pom.MenuPage;
+import com.duncan.paintnetautomationframework.utilities.ImageSolution;
 
 public class PaintNetTests {
+	// C:\dev\Java\JavaDesktopApplicationAutomation\PaintNetAutomationFramework\src\main\resources\images\pom
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -37,28 +39,35 @@ public class PaintNetTests {
 
 	@Before
 	public void setUp() throws Exception {
+		MenuPage.createNewDrawing();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void testMaximizeWindow() throws InterruptedException {
-		Driver.maximizeWindow();
-	}
-
-	@Test
-	@Ignore
-	public void testCloseDrawing() throws InterruptedException {
 		MenuPage.closeDrawing();
 	}
 
 	@Test
-	public void testImageSolutionClass() throws InterruptedException, AWTException, IOException {
-		// C:\dev\Java\JavaDesktopApplicationAutomation\PaintNetAutomationFramework\src\main\resources\images\pom
+	@Ignore
+	public void testExitApplication() throws InterruptedException {
+		MenuPage.exitApplication();
+		Thread.sleep(1500);
+		Driver.start();
+	}
+
+	@Test
+	public void testMaximizeWindow() {
+		Driver.maximizeWindow();
+	}
+
+	@Test
+	public void testRestoreWindow() {
+		Driver.restoreWindow();
+	}
+
+	@Test
+	public void testImageSolutionClass() {
 		ImageSolution imageSolution = new ImageSolution("Driver\\title_bar\\title_bar_focused.jpg");
-	
 		System.out.println("upperleft   = " + imageSolution.getUpperLeftPoint().toString());
 		System.out.println("upperright  = " + imageSolution.getUpperRightPoint().toString());
 		System.out.println("lowerleft   = " + imageSolution.getLowerLeftPoint().toString());
@@ -66,5 +75,9 @@ public class PaintNetTests {
 		System.out.println("center      = " + imageSolution.getCenterPoint().toString());
 	}
 
+	@Test
+	public void testSaveAs() {
+		MenuPage.saveAs("PaintNetTests_testSaveAs");
+	}
 
 }

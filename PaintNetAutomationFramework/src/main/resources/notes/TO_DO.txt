@@ -1,0 +1,62 @@
+Implement scanning images in a folder
+
+ImageSolution should automatically
+	Take the screenshot
+	Find the image
+	Store the Points for the corners and center
+	
+
+COMPLETE:
+
+creating a new drawing
+closing the drawing
+maximizing the window
+restoring the window
+save
+save as
+finding an image on the screen and returning coordinates
+
+
+
+========================================
+TESTS
+========================================
+
+COMPLETE
+	Draw a triangle
+	Verify the triangle	
+
+COMPLETE
+	Draw a triangle
+	Paint the inside of the triangle red
+	Verify the triangle
+
+Paste a file icon for Word
+Paste a file icon for Excel next to the Word icon
+Paste a file icon for PDF next to the Excel icon
+Paste a file icon for XML next to the PDF icon
+Verify all icons
+
+Paste a map
+Verify Maryland
+
+Paste a map
+Zoom in 50%
+Verify the map has zoomed in on Delaware
+
+Draw a triangle
+Draw a rectangle next to the triangle
+Paint the inside of the rectangle purple
+Verify the 2 shapes
+
+Draw a triangle at a random location on the left side of the canvas
+Draw a triangle at a random location on the right side of the canvas
+Draw a line connecting the 2 triangles
+
+Paste a map
+Zoom in 50%
+Draw a line from Harford County to Ocean City
+Verify the map and line display correctly
+
+
+

@@ -1,17 +1,21 @@
-package com.duncan.paintnetautomationframework.pom;
+package com.duncan.mspaint3dautomationframework.utilities;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
-import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
@@ -21,8 +25,12 @@ import org.opencv.imgproc.Imgproc;
 public class ImageSolution {
 
 	private String template;
-	private String IMAGE_FOLDER = "C:\\dev\\Java\\JavaDesktopApplicationAutomation\\PaintNetAutomationFramework\\src\\main\\resources\\images\\pom\\";
-
+	private String IMAGE_FOLDER = "C:\\dev\\Java\\JavaDesktopApplicationAutomation\\MsPaint3dAutomationFramework\\src\\main\\resources\\images\\pom\\";
+	private String screenshot= IMAGE_FOLDER + "screenshot.jpg";
+	private String writeLocation = IMAGE_FOLDER + "match_coordinates.txt";
+	private String pythonImageSolutionExecutable = "C:\\dev\\Java\\JavaDesktopApplicationAutomation\\MsPaint3dAutomationFramework\\src\\main\\java\\com\\duncan\\mspaint3dautomationframework\\utilities\\image_solution.py";
+	private List<Point> matchPoints = null;
+	
 	private Point upperLeftPoint = null;
 	private Point upperRightPoint = null;
 	private Point lowerLeftPoint = null;
@@ -32,7 +40,7 @@ public class ImageSolution {
 	public Point getCenterPoint() {
 		return this.centerPoint;
 	}
-	
+
 	public Point getUpperLeftPoint() {
 		return this.upperLeftPoint;
 	}
@@ -63,35 +71,46 @@ public class ImageSolution {
 			e.printStackTrace();
 		}
 	}
+
+	private void runPythonScript() {
+		// Run Python script
+		try {
+			ProcessBuilder pb = new ProcessBuilder("python", this.pythonImageSolutionExecutable, this.template,
+					this.screenshot, this.writeLocation);
+			Process p = pb.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
 	
-	private void findImage() {
-		String SCREENSHOT = IMAGE_FOLDER + "screenshot.jpg";
-		takeScreenshot();
-		
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		Mat matTemplate = null;
+	private void readPythonOutputFile() {
+		// Read the output file of the Python script into an ArrayList of Points
+		this.matchPoints = new ArrayList<Point>();
+	    try (BufferedReader bufRead = Files.newBufferedReader(Paths.get(this.writeLocation))) {
+	        String line;
+	        while ((line = bufRead.readLine()) != null) {
+	            if (line.length() > 0) {
+	            	line = line.trim().replace("(", "").replace(")", "").replace(" ", "");
+	            	Integer x = new Integer(line.replaceAll(",[0-9]*", ""));
+	            	Integer y = new Integer(line.replaceAll("[0-9]*,", ""));
+	            	Point point = new Point(x, y);
+	                matchPoints.add(point);
+	            }
+	        }
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    }		
+	}
+
+	private void calculatePoints() {
+	    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Mat matScreenshot = null;
-
-		// Gray scale is probably not needed
-		//matTemplate = Imgcodecs.imread(this.template, Imgcodecs.IMREAD_GRAYSCALE);
-		//matScreenshot = Imgcodecs.imread(SCREENSHOT, Imgcodecs.IMREAD_GRAYSCALE);
+		Mat matTemplate = null;
+		matScreenshot = Imgcodecs.imread(this.screenshot);
 		matTemplate = Imgcodecs.imread(this.template);
-		matScreenshot = Imgcodecs.imread(SCREENSHOT);
-
-		Mat outputImage = new Mat();
-		int matchMethod;
-		// matchMethod = Imgproc.TM_CCOEFF; // pretty good
-		matchMethod = Imgproc.TM_CCOEFF_NORMED; // pretty good
-		// matchMethod = Imgproc.TM_CCORR;
-		// matchMethod = Imgproc.TM_CCORR_NORMED; // pretty good
-		// matchMethod = Imgproc.TM_SQDIFF;
-		// matchMethod = Imgproc.TM_SQDIFF_NORMED;
-
-		Imgproc.matchTemplate(matScreenshot, matTemplate, outputImage, matchMethod);
-		MinMaxLocResult mmr = Core.minMaxLoc(outputImage);
-
+		
 		// Upper left point
-		this.upperLeftPoint = mmr.maxLoc;
+		this.upperLeftPoint = matchPoints.get(0);
 
 		// Upper right point
 		this.upperRightPoint = new Point(upperLeftPoint.x + matTemplate.cols(), upperLeftPoint.y);
@@ -106,12 +125,18 @@ public class ImageSolution {
 		double centerXCoordinate = Math.round((upperRightPoint.x - upperLeftPoint.x) / 2) + upperLeftPoint.x;
 		double centerYCoordinate = Math.round((lowerLeftPoint.y - upperLeftPoint.y) / 2) + upperLeftPoint.y;
 		this.centerPoint = new Point(centerXCoordinate, centerYCoordinate);
-		
+
 		// Draw a rectangle where the template was found
 		// For debugging purposes!
 		Imgproc.rectangle(matScreenshot, upperLeftPoint, lowerRightPoint, new Scalar(0, 0, 255));
 		Imgcodecs.imwrite(IMAGE_FOLDER + "result.jpg", matScreenshot);
-
+	}
+	
+	private void findImage() {
+		takeScreenshot();
+		runPythonScript();
+		readPythonOutputFile();
+		calculatePoints();
 	}
 
 }

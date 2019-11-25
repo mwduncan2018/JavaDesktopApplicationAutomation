@@ -1,58 +1,54 @@
-package com.duncan.paintnetautomationframework.pom;
+package com.duncan.mspaint3dautomationframework.pom;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import org.opencv.core.Point;
 import org.openqa.selenium.By;
 import org.openqa.selenium.winium.DesktopOptions;
 import org.openqa.selenium.winium.WiniumDriver;
 
-import com.duncan.paintnetautomationframework.utilities.ImageSolution;
-import com.duncan.paintnetautomationframework.utilities.SuperRobot;
-
-import org.opencv.core.Point;
+import com.duncan.mspaint3dautomationframework.utilities.ImageSolution;
+import com.duncan.mspaint3dautomationframework.utilities.SuperRobot;
 
 public class Driver extends BasePage {
 
-	private static String PAINT_NET_PATH = "D:\\Development Tools\\PaintNet\\PaintDotNet.exe";
+	private static String PAINT_3D_PATH = "C:\\Users\\mwdun\\Desktop\\Paint3dShortcut.lnk";
 	private static String URL = "http://localhost:9999";
 	public static WiniumDriver instance = null;
 
-	// For focusing on Paint.Net
-	private static String IMG_TITLE_BAR = "Driver\\title_bar\\title_bar_focused.jpg";
-	private static By MAIN_WINDOW = By.id("MainForm");
-
-	// Dialog Unsaved Changes
-	private static By DIALOG_UNSAVED_CHANGES = By.name("Unsaved Changes");
-	private static By DialogUnsavedChanges_DONT_SAVE = By.name("Don't Save");
+	// For focusing on Paint 3D
+	private static By TITLE_BAR = By.id("TopBarFocusWrapper");
+	// For closing
+	private static By CLOSE_WINDOW = By.id("Close");
 
 	public static void start() {
 		if (instance == null) {
 			try {
 				DesktopOptions options = new DesktopOptions();
-				options.setApplicationPath(PAINT_NET_PATH);
+				options.setApplicationPath(PAINT_3D_PATH);
 				instance = new WiniumDriver(new URL(URL), options);
 
-				Thread.sleep(2500);
-
-				// I might need to know about handles later
+				Thread.sleep(1500);
 				String handle = instance.getWindowHandle();
 				System.out.println("handle = " + handle);
 
-				focusOnPaintNet();
-
+				focusOnPaint3d();
 			} catch (MalformedURLException | InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	public static void focusOnPaint3d() {
+
+	}
+
 	public static void shutdown() {
-		instance.close();
+		instance.findElement(CLOSE_WINDOW).click();
 		instance = null;
 	}
 
@@ -82,18 +78,12 @@ public class Driver extends BasePage {
 
 			instance = null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public static void focusOnPaintNet() {
-		// OpenCV & Robot
-		Point p = new ImageSolution(IMG_TITLE_BAR).getUpperLeftPoint();
-		SuperRobot.clickPoint(p);
-	}
-
 	public static void maximizeWindow() {
-		focusOnPaintNet();
+		focusOnPaint3d();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -114,7 +104,7 @@ public class Driver extends BasePage {
 	}
 
 	public static void restoreWindow() {
-		focusOnPaintNet();
+		focusOnPaint3d();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -134,4 +124,6 @@ public class Driver extends BasePage {
 		}
 	}
 
+	
+	
 }
