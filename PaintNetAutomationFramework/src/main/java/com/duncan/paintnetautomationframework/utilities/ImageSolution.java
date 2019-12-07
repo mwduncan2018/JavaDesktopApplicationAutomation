@@ -88,7 +88,7 @@ public class ImageSolution {
 			e.printStackTrace();
 		}
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(750);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

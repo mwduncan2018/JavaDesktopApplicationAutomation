@@ -1,3 +1,61 @@
+Hyper V --- TO DO:
+	Allow host machine to talk to guest VMs
+	Allow guest VM to talk to guest VM
+
+	Then, test network architecture for Selenium Grid
+
+Youtube vid
+	DecSecOps
+		getting product out faster
+		
+		
+NIPR
+CRN (Closed Restricted Network)
+	some communication between NIPR and CRN
+SCRN (Secret CNR)
+	isolated and no communication
+SIPR
+
+Send Email to Jeffrey Day with:
+	people with email to talk
+
+Talk to Curtis about
+	Timelines for things
+
+Break process into small bytes
+
+
+
+Mirror of the soft dev virtual machine
+
+Josh Simmons (Integration)
+
+
+
+Jen Z (SEC Director)
+	Mike Crapazano (IEWS Directorate)
+		Russ (Division - ISD)
+			Curtis
+				Sean McIver
+					...
+			Pina Patel (Branch Chief - Software Engineering & Integration)
+				Bob
+			Mike Downs (Branch Chief -- Cyber Security)
+				Bill Sinclair (Cyber Security)
+					Jeffrey Day
+			Tony Webster (Branch Chief -- Infrastructure)
+
+
+
+
+
+
+
+
+
+
+
+
 Implement scanning images in a folder
 
 ImageSolution should automatically

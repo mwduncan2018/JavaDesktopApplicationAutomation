@@ -36,7 +36,7 @@ public class MenuPage extends BasePage {
 	private By EFFECTS = By.name("Effects");
 
 	public static void save() {
-		Driver.focusOnPaintNet();
+		// Driver.focusOnPaintNet();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -57,7 +57,7 @@ public class MenuPage extends BasePage {
 	}
 
 	public static void saveAs(String filename) {
-		Driver.focusOnPaintNet();
+		// Driver.focusOnPaintNet();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -94,7 +94,7 @@ public class MenuPage extends BasePage {
 	}
 
 	public static void createNewDrawing() {
-		Driver.focusOnPaintNet();
+		// Driver.focusOnPaintNet();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -124,7 +124,7 @@ public class MenuPage extends BasePage {
 	}
 
 	public static void closeDrawing() {
-		Driver.focusOnPaintNet();
+		// Driver.focusOnPaintNet();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_CONTROL);
@@ -141,7 +141,7 @@ public class MenuPage extends BasePage {
 	}
 
 	public static void exitApplication() {
-		Driver.focusOnPaintNet();
+		// Driver.focusOnPaintNet();
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -163,8 +163,14 @@ public class MenuPage extends BasePage {
 	}
 
 	public static void openFileIconTestImage() {
-		String imageLocation = "C:\\dev\\Java\\JavaDesktopApplicationAutomation\\PaintNetAutomationFramework\\src\\main\\resources\\images\\pom\\CanvasPage\\file_icon_test.jpg";
-		Driver.focusOnPaintNet();
+		openFile("C:\\dev\\Java\\JavaDesktopApplicationAutomation\\PaintNetAutomationFramework\\src\\main\\resources\\images\\pom\\CanvasPage\\file_icon_test.jpg");
+	}
+
+	public static void openFileMarylandMap() {
+		openFile("C:\\dev\\Java\\JavaDesktopApplicationAutomation\\PaintNetAutomationFramework\\src\\main\\resources\\images\\pom\\CanvasPage\\maryland_map.jpg");
+	}
+
+	private static void openFile(String file) {
 		try {
 			Robot robot = new Robot();
 			robot.keyPress(KeyEvent.VK_ALT);
@@ -179,14 +185,13 @@ public class MenuPage extends BasePage {
 			robot.delay(200);
 			robot.keyRelease(KeyEvent.VK_ALT);
 			robot.delay(200);
-			SuperRobot.sendKeys(imageLocation);
+			SuperRobot.sendKeys(file);
 			robot.keyPress(KeyEvent.VK_ENTER);
 			robot.delay(200);
 			robot.keyRelease(KeyEvent.VK_ENTER);
 			robot.delay(200);
 		} catch (AWTException e) {
 			e.printStackTrace();
-		}
+		}		
 	}
-	
 }

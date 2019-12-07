@@ -12,29 +12,28 @@ import com.duncan.paintnetautomationframework.pom.CanvasPage;
 import com.duncan.paintnetautomationframework.pom.Driver;
 import com.duncan.paintnetautomationframework.pom.MenuPage;
 import com.duncan.paintnetautomationframework.pom.ToolbarPage;
+
 public class AdvancedPaintNetTests {
 
 	@Before
 	public void setUp() throws Exception {
 		Driver.start();
+		Driver.maximizeWindow();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		Driver.shutdownNoSave();
-		Thread.sleep(1500);
 	}
-	
+
 	@Test
 	public void drawATriangle_verifyTheTriangle() {
-		Driver.maximizeWindow();
 		CanvasPage.drawTriangle();
 		assertTrue(CanvasPage.verifyTriangle());
 	}
 
 	@Test
 	public void drawATriangle_paintTheInsideRed_verifyTheTriangleIsRed() {
-		Driver.maximizeWindow();
 		CanvasPage.drawTriangle();
 		ToolbarPage.selectRedColor();
 		ToolbarPage.selectPaintIcon();
@@ -43,14 +42,38 @@ public class AdvancedPaintNetTests {
 	}
 	
 	@Test
-	public void openAnImageWithWordExcelNotepadAccessFileIcons_verifyEachIcon() throws InterruptedException {
-		Driver.maximizeWindow();
+	public void openAnImageWithWordExcelNotepadAccessFileIcons_verifyEachIcon() {
 		MenuPage.openFileIconTestImage();
-		Thread.sleep(10000);
 		assertTrue(CanvasPage.verifyAccessFileIcon());
 		assertTrue(CanvasPage.verifyExcelFileIcon());
 		assertTrue(CanvasPage.verifyNotepadPlusPlusFileIcon());
 		assertTrue(CanvasPage.verifyWordFileIcon());
 	}
+
+	@Test
+	public void openMarylandMap_verifyBaltimoreIsDisplayed() {
+		MenuPage.openFileMarylandMap();
+		assertTrue(CanvasPage.verifyBaltimoreIsDisplayed());
+	}
+	
+	@Test
+	public void openMarylandMap_verifyOceanCityIsDisplayed() {
+		MenuPage.openFileMarylandMap();
+		assertTrue(CanvasPage.verifyOceanCityIsDisplayed());
+	}
+	
+	@Test
+	public void openMarylandMap_drawRedLineFromBaltimoreToOceanCity_verifyImage() {
+		MenuPage.openFileMarylandMap();
+		CanvasPage.drawRedLineFromBaltimoreToOceanCity();
+		assertTrue(CanvasPage.verifyMarylandMapWithRedLineFromBaltimoreToOceanCity());
+	}
+	
+	
+	
 	
 }
+
+
+
+
